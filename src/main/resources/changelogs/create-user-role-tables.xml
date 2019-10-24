@@ -1,0 +1,61 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <changeSet author="ijovanovic" id="1000">
+        <createTable tableName="account">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="username" type="VARCHAR(50)"/>
+            <column name="password" type="VARCHAR(60)"/>
+            <column name="enabled" type="BOOLEAN"/>
+            <column name="token_expired" type="BOOLEAN"/>
+        </createTable>
+
+        <addPrimaryKey tableName="account" columnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1001" author="ijovanovic">
+        <createTable tableName="role">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(50)"/>
+        </createTable>
+
+        <addPrimaryKey tableName="role" columnNames="id"/>
+    </changeSet>
+    
+    <changeSet id="1002" author="ijovanovic">
+        <createTable tableName="account_role">
+            <column name="account_id" type="INT"></column>
+            <column name="role_id" type="INT"></column>
+        </createTable>
+
+        <!-- Add Constraints -->
+        <addForeignKeyConstraint baseColumnNames="account_id"
+                                 baseTableName="account_role"
+                                 constraintName="fk_account_account_role_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="account"/>
+
+        <addForeignKeyConstraint baseColumnNames="role_id"
+                                 baseTableName="account_role"
+                                 constraintName="fk_role_account_role_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="role"/>
+    </changeSet>
+</databaseChangeLog>

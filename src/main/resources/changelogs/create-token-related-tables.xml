@@ -1,0 +1,68 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <changeSet author="ijovanovic" id="1003">
+        <createTable tableName="oauth_client_details">
+            <column name="client_id" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resource_ids" type="VARCHAR(256)"/>
+            <column name="client_secret" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="scope" type="VARCHAR(256)"/>
+            <column name="authorized_grant_types" type="VARCHAR(256)"/>
+            <column name="web_server_redirect_uri" type="VARCHAR(256)"/>
+            <column name="authorities" type="VARCHAR(256)"/>
+            <column name="access_token_validity" type="INT"/>
+            <column name="refresh_token_validity" type="INT"/>
+            <column name="additional_information" type="VARCHAR(4000)"/>
+            <column name="autoapprove" type="VARCHAR(256)"/>
+        </createTable>
+
+        <addPrimaryKey tableName="oauth_client_details" columnNames="client_id"/>
+        
+        <createTable tableName="oauth_client_token">
+            <column name="token_id" type="VARCHAR(256)"></column>
+            <column name="token" type="BLOB"></column>
+            <column name="authentication_id" type="VARCHAR(256)"></column>
+            <column name="user_name" type="VARCHAR(256)"></column>
+            <column name="client_id" type="VARCHAR(256)"></column>
+        </createTable>
+
+        <addPrimaryKey tableName="oauth_client_token" columnNames="authentication_id"/>
+        
+        <createTable tableName="oauth_access_token">
+            <column name="token_id" type="VARCHAR(256)"></column>
+            <column name="token" type="bytea"></column>
+            <column name="authentication_id" type="VARCHAR(256)"></column>
+            <column name="user_name" type="VARCHAR(256)"></column>
+            <column name="client_id " type="VARCHAR(256)"></column>
+            <column name="authentication" type="bytea"></column>
+            <column name="refresh_token " type="VARCHAR(256)"></column>
+        </createTable>
+        
+        <createTable tableName="oauth_refresh_token">
+            <column name="token_id" type="VARCHAR(256)"></column>
+            <column name="token" type="BLOB"></column>
+            <column name="authentication" type="BLOB"></column>
+        </createTable>
+        
+        <createTable tableName="oauth_code">
+            <column name="code" type="VARCHAR(256)"></column>
+            <column name="authentication" type="BLOB"></column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

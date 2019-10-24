@@ -1,2 +1,26 @@
 server:
   port: 8081
+
+# database settings
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 30
+      max-lifetime: 10
+    url: jdbc:postgresql://localhost:5432/authdb
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: password
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        hbm2ddl:
+          auto: update
+  # path to migration files
+  liquibase:
+    change-log: classpath:changelog-master.xml

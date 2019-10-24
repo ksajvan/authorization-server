@@ -10,20 +10,21 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @EnableAuthorizationServer
 @SpringBootApplication
-public class AuthorizationServerApplication implements CommandLineRunner {
+//public class AuthorizationServerApplication implements CommandLineRunner {
+public class AuthorizationServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthorizationServerApplication.class, args);
 	}
 
-	@Autowired
-	AccountRepository accountRepository;
-
-	@Override
-	public void run(String... args) throws Exception {
-		accountRepository.deleteAll();
-		accountRepository.save(new Account("user", "pass"));
-
-		System.out.println("User added");
-	}
+//	@Autowired
+//	AccountRepository accountRepository;
+//
+//	@Override
+//	public void run(String... args) throws Exception {
+//		accountRepository.deleteAll();
+//		accountRepository.save(new Account("user", "pass"));
+//
+//		System.out.println("User added");
+//	}
 }
